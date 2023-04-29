@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("start");
         highScore = PlayerPrefs.GetInt("highScore", 0);
 
         Load();
@@ -31,7 +30,6 @@ public class GameManager : MonoBehaviour
     }
     public void LoseLife()
     {
-        Debug.Log("LoseLife");
         if(lives > 0)
         {
             StartCoroutine(ReSpawn());
@@ -45,7 +43,6 @@ public class GameManager : MonoBehaviour
 
     void EndGame()
     {
-        Debug.Log("EndGame");
         if(score > highScore)
         {
             PlayerPrefs.SetInt("highScore", score);
@@ -56,7 +53,6 @@ public class GameManager : MonoBehaviour
 
     IEnumerator ReSpawn()
     {
-        Debug.Log("ReSpawn");
         yield return new WaitForSeconds(2f);
         // Decrement lives
         lives--;
@@ -78,7 +74,6 @@ public class GameManager : MonoBehaviour
 
     private void CheckForLevelCompletion()
     {
-        Debug.Log("CheckForLevelCompletion");
         if(!FindAnyObjectByType<Enemy>())
         {
             foreach(Spawner spawner in spawners)
@@ -94,7 +89,6 @@ public class GameManager : MonoBehaviour
 
     void CompletLevel()
     {
-        Debug.Log("CompletLevel");
         // increase level
         level++;
         Save();
@@ -106,14 +100,12 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("You Win!");
             EndGame();
         }
     }
 
     private void Save()
     {
-        Debug.Log("Save");
         PlayerPrefs.SetInt("lives", lives);
         PlayerPrefs.SetInt("score", score);
         PlayerPrefs.SetInt("level", level);
@@ -128,7 +120,6 @@ public class GameManager : MonoBehaviour
 
     void StartNewGame()
     {
-        Debug.Log("StartNewGame");
         level = 0;
         SceneManager.LoadScene(level);
         PlayerPrefs.DeleteKey("lives");
