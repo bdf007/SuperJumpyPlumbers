@@ -14,10 +14,17 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Spawner[] spawners;
     [SerializeField] private TextMeshProUGUI scoreText, livesText, HighScoreText;
 
+    //private void Awake()
+    //{
+    //    highScore = 0;
+    //    Debug.Log("highScore Awake = " + highScore);
+    //}
 
     private void Start()
     {
-        highScore = PlayerPrefs.GetInt("highscore", 0);
+        highScore = PlayerPrefs.GetInt("highScore", 0);
+        Debug.Log("highScore Start = " + highScore);
+
         Load();
         HighScoreText.text = "High Score : " + highScore.ToString();
         UpdateUI();
@@ -39,9 +46,10 @@ public class GameManager : MonoBehaviour
     {
         if(score > highScore)
         {
-            PlayerPrefs.SetInt("highscore", score);
+            PlayerPrefs.SetInt("highScore", score);
+
         }
-        StartNewGame();
+        //StartNewGame();
     }
 
     IEnumerator ReSpawn()
@@ -86,13 +94,14 @@ public class GameManager : MonoBehaviour
         // increase level
         level++;
         // check if there is a next level and load it if not start new game
-        if(SceneManager.sceneCountInBuildSettings > level)
+        if(level <= SceneManager.sceneCountInBuildSettings - 1)
         {
             SceneManager.LoadScene(level);
         }
         else
         {
-            StartNewGame();
+            Debug.Log("You Win!");
+            EndGame();
         }
     }
 

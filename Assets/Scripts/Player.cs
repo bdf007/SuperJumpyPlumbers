@@ -6,19 +6,11 @@ public class Player : MonoBehaviour
 {
 
     private GameManager gameManager;
-    private static Player instance;
 
     private void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
-        if(instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
+      
     }
     // Start is called before the first frame update
     void Start()
