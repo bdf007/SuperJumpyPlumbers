@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-
+    public int pointValue;
     private Rigidbody2D enemyRb;
     [SerializeField]private float speed;
     private Vector2 movementDirection;
