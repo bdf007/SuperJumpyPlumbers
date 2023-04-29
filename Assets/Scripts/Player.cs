@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+
+    private GameManager gameManager;
+
+    private void Awake()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -42,11 +49,13 @@ public class Player : MonoBehaviour
         Destroy(enemy.gameObject);
         yield return new WaitForEndOfFrame();
         // add points to score based on enemy point value
+        gameManager.AddPoints(enemy.pointValue);
         // add points will check to see if any enemies are left, complete level?
     }
 
     void Hurt()
     {
+        gameManager.LoseLife();
         Destroy(this.gameObject);
     }
 }
