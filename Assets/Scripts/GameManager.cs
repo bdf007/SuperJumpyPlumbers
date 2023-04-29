@@ -10,8 +10,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int level;
     [SerializeField] private Player player;
     [SerializeField] private Transform playerSpawnPoint;
-    private Spawner[] spawners;
+    [SerializeField] private Spawner[] spawners;
 
+
+    private void Start()
+    {
+        Load();
+    }
     public void LoseLife()
     {
         if(lives > 0)
@@ -20,9 +25,18 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            // Game over
+           EndGame();
             
         }
+    }
+
+    void EndGame()
+    {
+        if(score > PlayerPrefs.GetInt("highscore", 0))
+        {
+            PlayerPrefs.SetInt("highscore", score);
+        }
+        StartNewGame();
     }
 
     IEnumerator ReSpawn()
@@ -54,24 +68,46 @@ public class GameManager : MonoBehaviour
                     return;
                 }
             }
+            CompletLevel(); 
         }
     }
 
     void CompletLevel()
     {
+        Save();
         // increase level
         level++;
-        // check if there is a next level and load it
-        if (SceneManager.GetSceneAt(level) != null)
+        // check if there is a next level and load it if not start new game
+        if(SceneManager.sceneCountInBuildSettings > level)
         {
             SceneManager.LoadScene(level);
         }
         else
         {
-            // game over
-            Debug.Log("Game Won! Nice!");
+            StartNewGame();
         }
+    }
 
+    private void Save()
+    {
+        PlayerPrefs.SetInt("lives", lives);
+        PlayerPrefs.SetInt("score", score);
+        PlayerPrefs.SetInt("level", level);
+    }
 
+    private void Load()
+    {
+        lives =PlayerPrefs.GetInt("lives", 3);
+        score =PlayerPrefs.GetInt("score", 0);
+        level =PlayerPrefs.GetInt("level", 0);
+    }
+
+    void StartNewGame()
+    {
+        level = 0;
+        SceneManager.LoadScene(level);
+        PlayerPrefs.DeleteKey("lives");
+        PlayerPrefs.DeleteKey("score");
+        PlayerPrefs.DeleteKey("level");
     }
 }

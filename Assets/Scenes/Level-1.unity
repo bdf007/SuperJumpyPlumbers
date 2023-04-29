@@ -201,8 +201,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lives: 3
   score: 0
+  level: 0
   player: {fileID: 6573692206375862845, guid: 826ae2802e2b3b14b8964ece4c2a65e7, type: 3}
   playerSpawnPoint: {fileID: 1719481009}
+  spawners:
+  - {fileID: 1813543599}
 --- !u!4 &447439972
 Transform:
   m_ObjectHideFlags: 0
@@ -1059,7 +1062,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemies:
   - {fileID: 6673012533099153963, guid: fa2f5ea2acb6b28448881f4b07810e30, type: 3}
-  - {fileID: 6673012533099153963, guid: 4d6510ba563d1f04e8991e18cb4dd37f, type: 3}
+  - {fileID: 6673012533099153963, guid: fa2f5ea2acb6b28448881f4b07810e30, type: 3}
   spawnTimeDelay: 2
   startSpawnDelay: 3
   completed: 0
