@@ -67,4 +67,5 @@ public class Player : MonoBehaviour
         gameManager.LoseLife();
         Destroy(this.gameObject);
     }
+
 }

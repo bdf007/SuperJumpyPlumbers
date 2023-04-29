@@ -2,20 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
 
-    public int lives, score;
+    public int lives, score, highScore;
     [SerializeField] private int level;
     [SerializeField] private Player player;
     [SerializeField] private Transform playerSpawnPoint;
     [SerializeField] private Spawner[] spawners;
+    [SerializeField] private TextMeshProUGUI scoreText, livesText, HighScoreText;
 
 
     private void Start()
     {
+        highScore = PlayerPrefs.GetInt("highscore", 0);
         Load();
+        HighScoreText.text = "High Score : " + highScore.ToString();
+        UpdateUI();
     }
     public void LoseLife()
     {
@@ -32,7 +37,7 @@ public class GameManager : MonoBehaviour
 
     void EndGame()
     {
-        if(score > PlayerPrefs.GetInt("highscore", 0))
+        if(score > highScore)
         {
             PlayerPrefs.SetInt("highscore", score);
         }
@@ -44,6 +49,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         // Decrement lives
         lives--;
+        // update UI lives
+        UpdateUI();
         // Respawn player
         Instantiate(player.gameObject, playerSpawnPoint.position, Quaternion.identity);
         // update UI lives
@@ -53,6 +60,7 @@ public class GameManager : MonoBehaviour
     {
         score += points;
         // update UI score
+        UpdateUI();
         // is the level complete?
         CheckForLevelCompletion();
     }
@@ -109,5 +117,11 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.DeleteKey("lives");
         PlayerPrefs.DeleteKey("score");
         PlayerPrefs.DeleteKey("level");
+    }
+
+    void UpdateUI()
+    {
+        scoreText.text = "score : " + score.ToString();
+        livesText.text = "lives : " + lives.ToString();
     }
 }
